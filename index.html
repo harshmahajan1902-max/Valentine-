@@ -100,9 +100,9 @@
 <button id="yes" onclick="yesClick()">YES 💖</button>
 <button id="no" onmouseover="noRun()">NO 🙈</button>
 
-<!-- Background Music -->
-<audio id="bgMusic">
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+<!-- 🎵 WORKING Background Music -->
+<audio id="bgMusic" preload="auto" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_6b3c5b1b47.mp3?filename=romantic-piano-ambient-123078.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -110,8 +110,10 @@
 
   function yesClick() {
 
-    // 🎵 Music
-    document.getElementById("bgMusic").play();
+    // 🎵 Play music (GitHub-safe)
+    const music = document.getElementById("bgMusic");
+    music.currentTime = 0;
+    music.play().catch(e => console.log(e));
 
     // 📳 Mobile vibration
     if (navigator.vibrate) {
@@ -125,7 +127,7 @@
       origin: { y: 0.6 }
     });
 
-    // 💖 Celebration screen
+    // 💖 Celebration Screen
     document.body.innerHTML = `
       <h1 style="animation:fadeInUp 1s ease;">YAYYY Aishwarya 🥰💖</h1>
 
@@ -133,40 +135,4 @@
            style="animation:fadeInUp 1.2s ease;">
 
       <div class="typing">
-        Ek Anjaan Bankar Aayi Thi Aur Ab 😊<br>
-        <b>Jaan Ban Gayi Ho Humari</b> 🙈❤️
-      </div>
-
-      <p style="margin-top:18px; animation:fadeInUp 1.8s ease;">
-        Love, Harsh ❤️
-      </p>
-    `;
-
-    // 💋 Kiss emoji burst
-    for (let i = 0; i < 18; i++) {
-      setTimeout(createKiss, i * 120);
-    }
-  }
-
-  function createKiss() {
-    const kiss = document.createElement("div");
-    kiss.className = "kiss";
-    kiss.innerText = "💋";
-    kiss.style.left = Math.random() * 90 + "vw";
-    kiss.style.bottom = "10px";
-    document.body.appendChild(kiss);
-    setTimeout(() => kiss.remove(), 2500);
-  }
-
-  function noRun() {
-    const noBtn = document.getElementById("no");
-    noBtn.style.left = Math.random() * 75 + "vw";
-    noBtn.style.top = Math.random() * 65 + "vh";
-    noScale -= 0.05;
-    noBtn.style.transform = `scale(${noScale})`;
-    if (noScale < 0.4) noBtn.innerText = "YES 😜";
-  }
-</script>
-
-</body>
-</html>
+        Ek Anjaan Bankar Aayi Thi Aur Ab 😊<
