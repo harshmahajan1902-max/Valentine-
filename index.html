@@ -17,8 +17,14 @@
     color: white;
   }
 
-  h1 { font-size: 2.6em; margin-bottom: 10px; }
-  h2 { font-weight: normal; }
+  h1 {
+    font-size: 2.6em;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-weight: normal;
+  }
 
   img {
     width: 280px;
@@ -99,7 +105,7 @@
 <button id="yes" onclick="yesClick()">YES 💖</button>
 <button id="no" onmouseover="noRun()">NO 🙈</button>
 
-<!-- 🎵 WORKING Background Music -->
+<!-- 🎵 MUSIC (GitHub Pages safe) -->
 <audio id="bgMusic" preload="auto" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_6b3c5b1b47.mp3?filename=romantic-piano-ambient-123078.mp3" type="audio/mpeg">
 </audio>
@@ -109,10 +115,10 @@
 
   function yesClick() {
 
-    // 🎵 Play music (GitHub-safe)
+    // 🎵 Play music
     const music = document.getElementById("bgMusic");
     music.currentTime = 0;
-    music.play().catch(e => console.log(e));
+    music.play().catch(() => {});
 
     // 📳 Mobile vibration
     if (navigator.vibrate) {
