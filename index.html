@@ -8,60 +8,78 @@
 <style>
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
-  height: 100vh;
-  background: linear-gradient(180deg, #ff2f92, #ff5fbf);
-  font-family: 'Poppins', sans-serif;
+  height: 100%;
   overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Reel container */
+/* ===== BACKGROUND (DEPTH) ===== */
+.bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, #ff85c2, transparent 40%),
+    radial-gradient(circle at 70% 80%, #ff4d9d, transparent 45%),
+    linear-gradient(180deg, #ff2f92, #ff5fbf);
+  animation: bgMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove {
+  from { transform: scale(1) translateY(0); }
+  to   { transform: scale(1.1) translateY(-20px); }
+}
+
+/* ===== REEL CONTAINER ===== */
 .reel {
+  position: relative;
+  z-index: 2;
   height: 100vh;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
-/* Floating hearts */
+/* ===== FLOATING HEARTS (SUBTLE) ===== */
 .heart {
   position: absolute;
-  bottom: -30px;
+  bottom: -40px;
   font-size: 18px;
-  animation: floatUp linear infinite;
-  opacity: 0.8;
+  opacity: 0.6;
+  animation: heartFloat linear forwards;
 }
 
-@keyframes floatUp {
+@keyframes heartFloat {
   from { transform: translateY(0) scale(0.8); opacity: 0; }
-  10% { opacity: 1; }
-  to { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+  15%  { opacity: 0.8; }
+  to   { transform: translateY(-120vh) scale(1.2); opacity: 0; }
 }
 
-/* Card */
+/* ===== CARD (CINEMATIC) ===== */
 .card {
   width: 92%;
   max-width: 360px;
-  background: rgba(255,255,255,0.22);
-  backdrop-filter: blur(16px);
-  border-radius: 28px;
-  padding: 32px 26px;
+  padding: 34px 26px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px);
   text-align: center;
   color: #fff;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-  animation: reelIn 1.2s ease forwards;
-  transform: translateY(40px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+
+  /* REEL ANIMATION */
+  transform: scale(0.85) translateY(40px);
   opacity: 0;
+  animation: cardIn 1.4s cubic-bezier(.19,1,.22,1) forwards;
 }
 
-@keyframes reelIn {
-  to { transform: translateY(0); opacity: 1; }
+@keyframes cardIn {
+  60% { transform: scale(1.05) translateY(-4px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* Avatar */
+/* ===== AVATAR ===== */
 .avatar {
   width: 96px;
   height: 96px;
@@ -69,13 +87,24 @@ body {
   border: 4px solid rgba(255,255,255,0.9);
   object-fit: cover;
   margin-bottom: 14px;
-  animation: glow 3s infinite;
 }
 
-@keyframes glow {
-  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.6); }
-  70% { box-shadow: 0 0 0 16px rgba(255,255,255,0); }
-  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+/* ===== TEXT REVEAL ===== */
+.line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: textIn 0.9s cubic-bezier(.19,1,.22,1) forwards;
+}
+
+.line.delay1 { animation-delay: 0.6s; }
+.line.delay2 { animation-delay: 1.2s; }
+.line.delay3 { animation-delay: 2s; }
+
+@keyframes textIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1 {
@@ -86,23 +115,23 @@ h1 {
 p {
   font-size: 15px;
   line-height: 1.6;
+  margin: 10px 0;
 }
 
-/* Buttons */
+/* ===== BUTTONS ===== */
 .buttons {
-  margin-top: 24px;
+  margin-top: 26px;
   display: flex;
   justify-content: center;
   gap: 16px;
 }
 
 button {
-  padding: 13px 30px;
+  padding: 13px 32px;
   font-size: 16px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  transition: 0.25s;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -119,7 +148,7 @@ button {
   position: relative;
 }
 
-/* GIF */
+/* ===== GIF ===== */
 #gif {
   display: none;
   width: 210px;
@@ -127,7 +156,7 @@ button {
   border-radius: 18px;
 }
 
-/* Confetti */
+/* ===== CONFETTI ===== */
 .confetti {
   position: fixed;
   width: 10px;
@@ -139,38 +168,30 @@ button {
 @keyframes fall {
   to { transform: translateY(100vh) rotate(360deg); }
 }
-
-/* Tap hint */
-.tap {
-  position: absolute;
-  bottom: 30px;
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
-}
 </style>
 </head>
 
 <body>
 
-<div class="reel" id="reel">
+<div class="bg"></div>
+
+<div class="reel">
 
   <div class="card">
     <img class="avatar" src="https://i.imgur.com/1X6wH4F.jpg">
 
-    <h1>Hey My Love 💖</h1>
+    <h1 class="line delay1">Hey My Love 💖</h1>
 
-    <p>
+    <p class="line delay2">
       Ek Anjaan Bankar Aayi Thi Aur Ab 😊<br>
       Jaan Bn Gayi Ho Humari 🙈❤️
     </p>
 
-    <p style="margin-top:14px;font-weight:600;">
+    <p class="line delay3" style="font-weight:600;">
       Will you be my Valentine? 💘
     </p>
 
-    <div class="buttons">
+    <div class="buttons line delay3">
       <button class="yes" id="yesBtn">Yes ❤️</button>
       <button class="no" id="noBtn">No 💔</button>
     </div>
@@ -178,7 +199,6 @@ button {
     <img id="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
   </div>
 
-  <div class="tap">Tap anywhere 💕</div>
 </div>
 
 <audio id="music" loop>
@@ -186,44 +206,32 @@ button {
 </audio>
 
 <script>
-const reel = document.getElementById("reel");
-const music = document.getElementById("music");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const gif = document.getElementById("gif");
-
-let started = false;
-
-/* Start music on first tap */
-reel.addEventListener("click", () => {
-  if (!started) {
-    music.play();
-    started = true;
-    document.querySelector(".tap").style.display = "none";
-  }
-});
-
-/* Floating hearts generator */
+/* FLOATING HEARTS */
 setInterval(() => {
   const h = document.createElement("div");
   h.className = "heart";
   h.innerText = ["❤️","💖","💕","💘"][Math.floor(Math.random()*4)];
   h.style.left = Math.random()*100 + "vw";
-  h.style.animationDuration = (Math.random()*4 + 4) + "s";
+  h.style.animationDuration = (Math.random()*5 + 6) + "s";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),8000);
-}, 600);
+  setTimeout(()=>h.remove(),10000);
+}, 700);
 
-/* YES click */
-yesBtn.onclick = (e) => {
-  e.stopPropagation();
+/* INTERACTIONS */
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const gif = document.getElementById("gif");
+const music = document.getElementById("music");
+
+yesBtn.onclick = () => {
   gif.style.display = "block";
+  music.play();
 
   if (navigator.vibrate) {
     navigator.vibrate([300,100,300,100,500]);
   }
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 90; i++) {
     const c = document.createElement("div");
     c.className = "confetti";
     c.style.left = Math.random()*100 + "vw";
@@ -232,12 +240,10 @@ yesBtn.onclick = (e) => {
     setTimeout(()=>c.remove(),3000);
   }
 
-  setTimeout(() => {
-    alert("Aishwarya 😘💋");
-  }, 1200);
+  setTimeout(()=>alert("Aishwarya 😘💋"), 1200);
 };
 
-/* NO playful */
+/* PLAYFUL NO */
 noBtn.onmouseover = () => {
   noBtn.style.position = "absolute";
   noBtn.style.left = Math.random()*70 + "%";
