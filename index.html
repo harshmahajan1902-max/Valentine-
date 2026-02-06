@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine 💖</title>
+<title>Hey My Love 💖</title>
 
 <style>
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  background: linear-gradient(135deg, #ff2f92, #ff5fbf);
   font-family: 'Poppins', sans-serif;
   display: flex;
   align-items: center;
@@ -17,15 +17,24 @@ body {
   overflow: hidden;
 }
 
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  text-align: center;
-  width: 90%;
-  max-width: 380px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  animation: pop 1s ease;
+/* Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 18px;
+  animation: float 6s linear infinite;
+  opacity: 0.8;
+}
+@keyframes float {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-@keyframes pop {
+/* Card */
+.card {
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 30px 25px;
+  width:
